@@ -1,50 +1,45 @@
-# Welcome to your Expo app 👋
+# Glowlyze
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+화장품 성분표를 촬영하면 AI가 성분을 분석하고, 피부 타입별 적합성을 알려주는 React Native 앱입니다.
 
-## Get started
+<p align="center">
+  <img src="./simulator.gif" width="300" alt="Glowlyze 데모" />
+</p>
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+- **성분 분석** — 화장품 성분표 사진을 찍으면 Gemini AI가 전체 성분을 추출하고 주의 성분을 알려줍니다.
+- **피부 타입별 적합성** — 건성 / 지성 / 복합성 / 민감성 피부에 대한 적합 여부를 한눈에 확인할 수 있습니다.
+- **피부 프로필 설정** — 내 피부 타입을 저장하면 분석 결과를 맞춤형으로 제공합니다.
+- **분석 히스토리** — 이전에 분석한 제품 내역을 저장하고 다시 확인할 수 있습니다.
 
-2. Start the app
+## Tech Stack
 
-   ```bash
-   npx expo start
-   ```
+- [Expo](https://expo.dev) (React Native)
+- [Expo Router](https://expo.github.io/router) — 파일 기반 라우팅
+- [Google Gemini API](https://ai.google.dev) (`gemini-2.5-flash-lite`) — 이미지 기반 성분 분석
+- AsyncStorage — 히스토리 및 프로필 로컬 저장
 
-In the output, you'll find options to open the app in a
+## Getting Started
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. 패키지 설치
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. 환경 변수 설정
 
-## Learn more
+프로젝트 루트에 `.env` 파일을 생성하고 Gemini API 키를 입력합니다.
 
-To learn more about developing your project with Expo, look at the following resources:
+```
+EXPO_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 3. 앱 실행
 
-## Join the community
+```bash
+npx expo start
+```
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+iOS 시뮬레이터, Android 에뮬레이터, 또는 Expo Go 앱으로 실행할 수 있습니다.
