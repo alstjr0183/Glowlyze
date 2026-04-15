@@ -15,6 +15,7 @@ export function useImageAnalysis() {
       return;
     }
 
+    console.log("[analyze] 시작 uri:", uri.slice(0, 80));
     setImageUri(uri);
     setResult(null);
     setLoading(true);
@@ -22,22 +23,28 @@ export function useImageAnalysis() {
     let ref: ImageRef | null = null;
 
     try {
+      console.log("[analyze] 이미지 압축 시작");
       ref = await ImageManipulator.manipulate(uri).resize({ width: 1024 }).renderAsync();
       const compressed = await ref.saveAsync({ compress: 0.6, format: SaveFormat.JPEG, base64: true });
+      console.log("[analyze] 압축 완료, base64 길이:", compressed.base64?.length ?? 0);
 
       if (!compressed.base64) {
         throw new Error("이미지 데이터를 불러올 수 없습니다.");
       }
 
+      console.log("[analyze] Gemini API 호출 시작");
       const analysis = await analyzeIngredients(compressed.base64);
+      console.log("[analyze] Gemini 응답 완료, 성분 수:", analysis.ingredients?.length);
       setResult(analysis);
     } catch (e) {
       const message = e instanceof Error ? e.message : String(e);
-      console.error("[Gemini] 오류:", message);
+      console.error("[analyze] 오류:", message);
+      if (e instanceof Error) console.error("[analyze] 스택:", e.stack);
       Alert.alert("분석 실패", message);
     } finally {
       ref?.release?.();
       setLoading(false);
+      console.log("[analyze] 종료, loading=false");
     }
   };
 
