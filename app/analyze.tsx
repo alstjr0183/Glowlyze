@@ -7,7 +7,7 @@ import LoadingState from "../domains/analyze/components/LoadingState";
 import { useImageAnalysis } from "../domains/analyze/hooks/useImageAnalysis";
 
 export default function AnalyzeScreen() {
-  const { imageUri, loading, result, takePhoto, pickFromGallery } = useImageAnalysis();
+  const { imageUri, loading, result, takePhoto, pickFromGallery, userSkinType } = useImageAnalysis();
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -19,7 +19,7 @@ export default function AnalyzeScreen() {
 
       {loading && <LoadingState />}
 
-      {result && imageUri && <AnalysisResult result={result} imageUri={imageUri} />}
+      {result && imageUri && <AnalysisResult result={result} imageUri={imageUri} userSkinType={userSkinType} />}
     </ScrollView>
   );
 }

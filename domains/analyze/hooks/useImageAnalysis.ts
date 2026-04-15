@@ -1,13 +1,19 @@
 import { ImageManipulator, ImageRef, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "react-native";
+import { SkinType, UserProfile, loadProfile } from "../../profile/services/profileService";
 import { IngredientAnalysis, analyzeIngredients } from "../services/geminiService";
 
 export function useImageAnalysis() {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<IngredientAnalysis | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    loadProfile().then(setProfile);
+  }, []);
 
   const analyze = async (uri: string) => {
     if (!uri) {
@@ -33,7 +39,7 @@ export function useImageAnalysis() {
       }
 
       console.log("[analyze] Gemini API 호출 시작");
-      const analysis = await analyzeIngredients(compressed.base64);
+      const analysis = await analyzeIngredients(compressed.base64, "image/jpeg", profile?.skinType);
       console.log("[analyze] Gemini 응답 완료, 성분 수:", analysis.ingredients?.length);
       setResult(analysis);
     } catch (e) {
@@ -84,5 +90,5 @@ export function useImageAnalysis() {
     await analyze(pickerResult.assets[0].uri);
   };
 
-  return { imageUri, loading, result, takePhoto, pickFromGallery };
+  return { imageUri, loading, result, takePhoto, pickFromGallery, userSkinType: (profile?.skinType ?? null) as SkinType | null };
 }
