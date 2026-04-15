@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { colors, radius, spacing } from "../../../../constants/theme";
+import { SkinType } from "../../../profile/services/profileService";
 import { IngredientAnalysis } from "../../services/geminiService";
 
 const SKIN_TYPES: { key: keyof IngredientAnalysis["skinTypeCompatibility"]; label: string }[] = [
@@ -11,15 +12,18 @@ const SKIN_TYPES: { key: keyof IngredientAnalysis["skinTypeCompatibility"]; labe
 
 interface Props {
   compatibility: IngredientAnalysis["skinTypeCompatibility"];
+  userSkinType?: SkinType | null;
 }
 
-export default function SkinTypeCompatibility({ compatibility }: Props) {
+export default function SkinTypeCompatibility({ compatibility, userSkinType }: Props) {
   return (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>🌿 피부 타입별 적합도</Text>
 
       {SKIN_TYPES.map(({ key, label }) => {
         const value = compatibility[key];
+        const isMyType = userSkinType === key;
+
         const valueStyleMap = { 적합: styles.good, 주의: styles.bad, 보통: styles.neutral };
         const valueStyle = valueStyleMap[value];
 
@@ -27,8 +31,15 @@ export default function SkinTypeCompatibility({ compatibility }: Props) {
         const badgeStyle = badgeStyleMap[value];
 
         return (
-          <View key={key} style={styles.skinRow}>
-            <Text style={styles.skinLabel}>{label}</Text>
+          <View key={key} style={[styles.skinRow, isMyType && styles.skinRowHighlighted]}>
+            <View style={styles.labelGroup}>
+              <Text style={[styles.skinLabel, isMyType && styles.skinLabelHighlighted]}>{label}</Text>
+              {isMyType && (
+                <View style={styles.myBadge}>
+                  <Text style={styles.myBadgeText}>내 피부</Text>
+                </View>
+              )}
+            </View>
             <View style={[styles.badge, badgeStyle]}>
               <Text style={[styles.skinValue, valueStyle]}>{value}</Text>
             </View>
@@ -53,7 +64,29 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
+  skinRowHighlighted: {
+    backgroundColor: colors.primaryLight,
+    borderColor: colors.primary,
+    borderWidth: 2,
+  },
+  labelGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+  },
   skinLabel: { fontSize: 14, color: colors.text, fontWeight: "500" },
+  skinLabelHighlighted: { color: colors.primary, fontWeight: "700" },
+  myBadge: {
+    backgroundColor: colors.primary,
+    borderRadius: radius.pill,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  myBadgeText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "700",
+  },
   badge: {
     paddingHorizontal: 10,
     paddingVertical: 3,
