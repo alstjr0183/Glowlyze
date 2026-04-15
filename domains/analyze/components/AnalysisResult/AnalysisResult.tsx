@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import { colors, radius, spacing } from "../../../../constants/theme";
 import { IngredientAnalysis } from "../../services/geminiService";
 import IngredientsList from "./IngredientsList";
 import SkinTypeCompatibility from "./SkinTypeCompatibility";
@@ -23,13 +24,15 @@ export default function AnalysisResult({ result }: Props) {
 }
 
 const styles = StyleSheet.create({
-  resultBox: { gap: 16 },
+  resultBox: { gap: spacing.lg },
   summary: {
-    fontSize: 15,
-    color: "#333",
-    backgroundColor: "#F0F4FF",
+    fontSize: 14,
+    color: colors.text,
+    backgroundColor: colors.accentLight,
     padding: 14,
-    borderRadius: 10,
+    borderRadius: radius.md,
     lineHeight: 22,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.accent,
   },
 });

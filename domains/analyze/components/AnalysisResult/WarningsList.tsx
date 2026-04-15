@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import { colors, radius, spacing } from "../../../../constants/theme";
 import { IngredientAnalysis } from "../../services/geminiService";
 
 interface Props {
@@ -22,15 +23,15 @@ export default function WarningsList({ warnings }: Props) {
 }
 
 const styles = StyleSheet.create({
-  section: { gap: 8 },
-  sectionTitle: { fontSize: 16, fontWeight: "700", color: "#222" },
+  section: { gap: spacing.sm },
+  sectionTitle: { fontSize: 15, fontWeight: "700", color: colors.text },
   warningItem: {
-    backgroundColor: "#FFF3F3",
-    padding: 12,
-    borderRadius: 8,
+    backgroundColor: colors.dangerBg,
+    padding: spacing.md,
+    borderRadius: radius.md,
     borderLeftWidth: 3,
-    borderLeftColor: "#FF4444",
+    borderLeftColor: colors.danger,
   },
-  warningName: { fontWeight: "600", color: "#CC0000" },
-  warningReason: { color: "#555", fontSize: 13, marginTop: 2 },
+  warningName: { fontWeight: "700", color: colors.danger, fontSize: 14 },
+  warningReason: { color: colors.textSecondary, fontSize: 13, marginTop: 3, lineHeight: 18 },
 });
