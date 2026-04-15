@@ -19,7 +19,7 @@ export default function AnalyzeScreen() {
 
       {loading && <LoadingState />}
 
-      {result && <AnalysisResult result={result} />}
+      {result && imageUri && <AnalysisResult result={result} imageUri={imageUri} />}
     </ScrollView>
   );
 }

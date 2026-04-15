@@ -10,6 +10,12 @@ export default function RootLayout() {
         headerTitleStyle: { color: colors.text, fontWeight: "700" },
         contentStyle: { backgroundColor: colors.background },
       }}
-    />
+    >
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="analyze"
+        options={{ title: "성분 분석", headerBackTitle: "홈" }}
+      />
+    </Stack>
   );
 }
